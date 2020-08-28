@@ -1,0 +1,13 @@
+# Epam landing page
+epamUrl: "https://www.epam.com/"
+epamLogo: "img[alt='EPAM']"
+
+#Epam contact page
+epamContact: "a[data-gtm-label='CTA Button']"
+mailSubjects: "select[name='mail_subjects']"
+userFirstName: "input[name='user_first_name']"
+userLastName: "input[name='user_last_name']"
+userEmail: "input[name='user_email']"
+userPhone: "input[name='user_phone']"
+hearAboutEpam: "select[name='user_comment_how_hear_about']"
+gdprCheckbox: "#new_form_gdprConsent"

@@ -1,0 +1,45 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    integration {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
+dependencies {
+    testCompile group: 'com.intuit.karate', name: 'karate-apache', version: '0.9.6.RC3'
+    testCompile group: 'com.intuit.karate', name: 'karate-junit4', version: '0.9.6.RC3'
+    testCompile group: 'com.intuit.karate', name: 'karate-core', version: '0.9.6.RC3'
+    testCompile 'net.masterthought:cucumber-reporting:5.1.1'
+    testCompile group: 'org.springframework', name: 'spring-jdbc', version: '3.2.0.RELEASE'
+    compile group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '8.2.0.jre8'
+}
+
+test.enabled = false
+
+test {
+    reports {
+        reports.junitXml.enabled = false
+        reports.html.enabled = false
+    }
+}
+
+task apiTest(type: Test, description: 'Runs the functional tests.') {
+
+    // pull cucumber options into the cucumber jvm
+    systemProperty "cucumber.options", System.properties.getProperty("cucumber.options")
+    // pull karate options into the jvm
+    systemProperty "karate.env", System.properties.getProperty("karate.env")
+    systemProperty "karate.suite", System.properties.getProperty("karate.suite")
+    systemProperties project.properties.subMap(["karate.suite"])
+    systemProperty "base.url", System.properties.getProperty("base.url")
+    systemProperties project.properties.subMap(["base.url"])
+    systemProperty "testHelper", System.properties.getProperty("karate.testHelper")
+    systemProperties project.properties.subMap(["karate.testHelper"])
+    outputs.upToDateWhen { false }
+}
